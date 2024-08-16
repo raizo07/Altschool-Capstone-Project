@@ -1,0 +1,75 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum userRole {
+  ADMIN
+  USER
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String?   @unique
+  emailVerified      DateTime? @map("email_verified")
+  password           String?
+  role               userRole  @default(USER)
+  image              String?
+  totalClicks        Int       @default(0) @map("total_clicks")
+  uniqueCountryCount Int       @default(0) @map("unique_country_count")
+  accounts           Account[]
+  links              Link[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Link {
+  id           String   @id @default(cuid())
+  name         String?
+  userId       String?  @map("user_id")
+  link         String
+  customSuffix String   @unique @map("custom_suffix")
+  clicks       Int      @default(0)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visits       Visit[]
+
+  @@map("links")
+}
+
+model Visit {
+  linkId  String @map("link_id")
+  country String
+  count   Int    @default(0)
+  link    Link   @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@id([linkId, country])
+  @@map("visits")
+}

@@ -1,0 +1,1814 @@
+openapi: 3.1.0
+x-stoplight:
+  id: zcl2xun02zxcl
+info:
+  license:
+    name: MIT
+    url: 'https://opensource.org/license/MIT'
+  title: UrlShortener
+  version: '1.0'
+  contact:
+    name: Gabriel Agada
+    url: 'https://www.raizo.tech/'
+    email: davidokunade1@gmail.com
+  summary: Authenticate User
+  description: UrlShortener API documentation
+tags:
+  - name: Authentication
+    description: Operation related to authentication
+  - name: Link
+    description: Operation related to links
+  - name: Protected
+    description: Api endpoints that are protected
+  - name: User
+    description: Operation related to users
+servers:
+  - url: 'https://www.raizo.tech/api'
+    description: Production
+  - url: 'http://localhost:3000/api'
+    description: Development
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate User
+      tags:
+        - Authentication
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    accessToken: eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiNHN6Yk9wWThZNkNTNHFyamxvd0lGTGptMFRNcHJ0cGxQSmVqS3FHYmJLbTVRbzN5dXVlWDBaLUJmTzZJaW1iUzRaWVZzYzhLRVZ1SkwzNVRnN25abHcifQ..76xiTo6agXJ4vTXPz43O0Q.9wEiL9xqjA5rk7S0d2PCwZjwvzSaWtpAvByQ0_HV2VYP2VfI4koejGaO7w5nxwWCKur-Rgi0ronyXAzvWr8NNS50h53x8nc4CUwJb2Hijhz-Tf6g0OzgtON7EgB9ooMmXbbHdcdYrKtdKyA_zBWkwKv1zZAaOtDb4rtzwiBTOwLXxBY9d_Ov6j0ImDpMN_t1DOcUEH6kWJg61h9Z_BvSGbk2S-zfsFH6Q0SKtP4Xu00.1PrM8VuW2pAxlOSShVDDBS9CmWVHvI6jEA9Gv6LuJaY
+                    user:
+                      id: clz0c0pzw0000cetc7zbaga21
+                      name: trans
+                      email: 1@2.com
+                      emailVerified: null
+                      role: USER
+                required:
+                  - success
+                  - accessToken
+                  - user
+                properties:
+                  success:
+                    type: boolean
+                  accessToken:
+                    type: string
+                    description: The Bearer Token for a valid user session
+                  user:
+                    $ref: '#/components/schemas/User'
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    accessToken: eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiNHN6Yk9wWThZNkNTNHFyamxvd0lGTGptMFRNcHJ0cGxQSmVqS3FHYmJLbTVRbzN5dXVlWDBaLUJmTzZJaW1iUzRaWVZzYzhLRVZ1SkwzNVRnN25abHcifQ..PSUfcpuU1vghxJNso1APfg.k8VEB10lbtLtEMRuEuIDvOxFEpEDu7Q4mpvFC9VNXeDuatzDmrdDq7gvGsMEsNmtkN_uWSfaiEmPrreqtR_5dD6nUTOZ-BYXCNImQ1C8yb_JgwZJZt-LYjBLXSLLOgTZK9IHlwmo9EvBXHuWvP8brw7TdyDprmRkNlr1nutsRHv_w4yOzJto5CUrQd4Z4D8Rrx271OcuKawmn8pC-e6_6jqiSKLVZAxPjWni56Eoua3EXF8aqHpBCf0n6HBqwDK0FVuwvger7LOdDLxrjrssQf93jAIdvE2hCVnAR_G5chrzkHYaQ6-NQC2ZMaIFdFDL.vZXtqpPCmwWubZLDjzRQFOXllIFbJUuI7S6dZV7dF4s
+                    user:
+                      id: clz0c0pzw0000cetc7zbaga21
+                      name: trans
+                      email: 1@2.com
+                      emailVerified: null
+                      role: USER
+                      totalClicks: 46
+                      uniqueCountryCount: 7
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    sucess: false
+                    error: Invalid fields
+                required:
+                  - sucess
+                  - error
+                properties:
+                  sucess:
+                    type: boolean
+                    default: false
+                  error:
+                    type: string
+                    default: invalid fields
+              examples:
+                Example 1:
+                  value:
+                    sucess: false
+                    error: invalid fields
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Invalid credentials
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  error:
+                    type: string
+                    default: Invalid credentials
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Invalid credentials
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: jdpnb1mpk8dqn
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: email already in use
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  error:
+                    type: string
+                    default: email already in use
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: An unexpected error occurred
+      operationId: get-auth-login
+      x-stoplight:
+        id: p9h491y08bj3a
+      security: []
+      description: Login a user with email and password.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  email: 1@2.com
+                  password: '123'
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: The email address of user
+                password:
+                  type: string
+                  description: The password of user
+            examples: {}
+        description: All fields required
+    parameters: []
+  /auth/register:
+    post:
+      summary: Register user
+      tags:
+        - Authentication
+        - User
+      responses:
+        '201':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    message: Email sent
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    default: Verification email sent
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    message: Registration successful
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Invalid fields
+                required:
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    default: Invalid fields
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: email already in use
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: email already in use
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Rate limit exceeded
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Internal server error
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Internal server error
+      operationId: get-auth-register
+      x-stoplight:
+        id: r0z4h08591vz8
+      description: Create a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  name: John Doe
+                  email: johndoe@gmail.com
+                  password: '123'
+              required:
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                  description: The name of user
+                email:
+                  type: string
+                  description: The email address of user
+                password:
+                  type: string
+                  description: 'The password of user. It must contain lowercase, uppercase, numbers, symbol'
+            examples:
+              Example 1:
+                value:
+                  name: string
+                  email: string
+                  password: string
+        description: All fields are required
+      security: []
+    parameters: []
+  /link:
+    get:
+      summary: Get all links
+      tags:
+        - Link
+        - Protected
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    data:
+                      - id: clzqc4nfc00017cr3nyv1r86y
+                        name: trans
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: www.raizo.tech
+                        customSuffix: ccool
+                        clicks: 1
+                        createdAt: '2024-08-12T01:48:40.728Z'
+                        updatedAt: '2024-08-15T04:55:22.926Z'
+                      - id: clzpfp37a0002n7levadg94wc
+                        name: cool
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: coolx
+                        clicks: 0
+                        createdAt: '2024-08-11T10:40:46.966Z'
+                        updatedAt: '2024-08-11T10:40:46.966Z'
+                      - id: clzmnprnp000n10o9m7e2mtzs
+                        name: null
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: uEpoz
+                        clicks: 0
+                        createdAt: '2024-08-09T12:01:57.061Z'
+                        updatedAt: '2024-08-09T12:01:57.061Z'
+                      - id: clzmnlptq000l10o9s3izz7ql
+                        name: coolify
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: coolify
+                        clicks: 0
+                        createdAt: '2024-08-09T11:58:48.062Z'
+                        updatedAt: '2024-08-09T11:58:48.062Z'
+                      - id: clzhhk52o0005hs1pd1oe7hp7
+                        name: null
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: 'jg,rp3'
+                        clicks: 0
+                        createdAt: '2024-08-05T21:10:45.936Z'
+                        updatedAt: '2024-08-05T21:10:45.936Z'
+                      - id: clzhhjick0003hs1p4exapq33
+                        name: null
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: eoqid
+                        clicks: 0
+                        createdAt: '2024-08-05T21:10:16.484Z'
+                        updatedAt: '2024-08-05T21:10:16.484Z'
+                      - id: clzhhfugj0001hs1pwxgfdnyw
+                        name: ''
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: skksccm
+                        clicks: 0
+                        createdAt: '2024-08-05T21:07:25.551Z'
+                        updatedAt: '2024-08-05T21:07:25.551Z'
+                      - id: clze8y5oa0001hvmzavw6t3nz
+                        name: ''
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: tUBvy
+                        clicks: 0
+                        createdAt: '2024-08-03T14:46:24.824Z'
+                        updatedAt: '2024-08-03T14:46:24.824Z'
+                      - id: clze81j6m000bq6l5rb7dw4i2
+                        name: jjjja
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: aaaaaV
+                        clicks: 0
+                        createdAt: '2024-08-03T14:21:02.686Z'
+                        updatedAt: '2024-08-03T14:21:02.686Z'
+                      - id: clze80yjy0009q6l528vcgvz0
+                        name: ksksjkjsjs
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: dejjjc
+                        clicks: 0
+                        createdAt: '2024-08-03T14:20:35.951Z'
+                        updatedAt: '2024-08-03T14:20:35.951Z'
+                    pagination:
+                      page: 1
+                      limit: 10
+                      totalLinks: 50
+                      totalPages: 5
+                required:
+                  - success
+                  - data
+                  - pagination
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: '#/components/schemas/Link'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      totalLinks:
+                        type: integer
+                      totalPages:
+                        type: integer
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      - id: clzqc4nfc00017cr3nyv1r86y
+                        name: trans
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: ccool
+                        clicks: 1
+                        createdAt: '2024-08-12T01:48:40.728Z'
+                        updatedAt: '2024-08-15T04:55:22.926Z'
+                      - id: clzpfp37a0002n7levadg94wc
+                        name: cool
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: coolx
+                        clicks: 0
+                        createdAt: '2024-08-11T10:40:46.966Z'
+                        updatedAt: '2024-08-11T10:40:46.966Z'
+                      - id: clzmnprnp000n10o9m7e2mtzs
+                        name: null
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: uEpoz
+                        clicks: 0
+                        createdAt: '2024-08-09T12:01:57.061Z'
+                        updatedAt: '2024-08-09T12:01:57.061Z'
+                      - id: clzmnlptq000l10o9s3izz7ql
+                        name: coolify
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: coolify
+                        clicks: 0
+                        createdAt: '2024-08-09T11:58:48.062Z'
+                        updatedAt: '2024-08-09T11:58:48.062Z'
+                      - id: clzhhk52o0005hs1pd1oe7hp7
+                        name: null
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: 'jg,rp3'
+                        clicks: 0
+                        createdAt: '2024-08-05T21:10:45.936Z'
+                        updatedAt: '2024-08-05T21:10:45.936Z'
+                      - id: clzhhjick0003hs1p4exapq33
+                        name: null
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: eoqid
+                        clicks: 0
+                        createdAt: '2024-08-05T21:10:16.484Z'
+                        updatedAt: '2024-08-05T21:10:16.484Z'
+                      - id: clzhhfugj0001hs1pwxgfdnyw
+                        name: ''
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: skksccm
+                        clicks: 0
+                        createdAt: '2024-08-05T21:07:25.551Z'
+                        updatedAt: '2024-08-05T21:07:25.551Z'
+                      - id: clze8y5oa0001hvmzavw6t3nz
+                        name: ''
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: tUBvy
+                        clicks: 0
+                        createdAt: '2024-08-03T14:46:24.824Z'
+                        updatedAt: '2024-08-03T14:46:24.824Z'
+                      - id: clze81j6m000bq6l5rb7dw4i2
+                        name: jjjja
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: aaaaaV
+                        clicks: 0
+                        createdAt: '2024-08-03T14:21:02.686Z'
+                        updatedAt: '2024-08-03T14:21:02.686Z'
+                      - id: clze80yjy0009q6l528vcgvz0
+                        name: ksksjkjsjs
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: dejjjc
+                        clicks: 0
+                        createdAt: '2024-08-03T14:20:35.951Z'
+                        updatedAt: '2024-08-03T14:20:35.951Z'
+                    pagination:
+                      page: 1
+                      limit: 10
+                      totalLinks: 50
+                      totalPages: 5
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      - id: clze80yjy0009q6l528vcgvz0
+                        name: ksksjkjsjs
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: dejjjc
+                        clicks: 0
+                        createdAt: '2024-08-03T14:20:35.951Z'
+                        updatedAt: '2024-08-03T14:20:35.951Z'
+                    pagination:
+                      page: 0
+                      limit: 0
+                      totalLinks: 0
+                      totalPages: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: cq4n93jclyvqb
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: An unexpected error occurred
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Internal server error
+      operationId: get-link
+      x-stoplight:
+        id: 43ac90vrghu7f
+      description: "Get all links created by authorized user\r\nAdditional query can be added to the request. \r\nPage defaults to 1 if not supplied \r\nlimit defaults to 25 if not supplied."
+      requestBody:
+        description: ''
+        content: {}
+      parameters:
+        - schema:
+            type: number
+            default: 1
+          in: query
+          name: page
+          description: The page to navigate to
+        - schema:
+            type: number
+            default: 10
+          in: query
+          name: limit
+          description: The number of item per page
+      security:
+        - apiKey_1: []
+    post:
+      summary: Create link
+      tags:
+        - Link
+      responses:
+        '201':
+          description: Link Created
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    data:
+                      id: clz5gqdl50001119jqd4logit
+                      userId: clz0c0pzw0000cetc7zbaga21
+                      link: www.google.com
+                      customSuffix: googaale
+                      clicks: 0
+                      createdAt: '2024-07-28T11:14:23.177Z'
+                      updatedAt: '2024-07-28T11:14:23.177Z'
+                required:
+                  - success
+                  - data
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  data:
+                    $ref: '#/components/schemas/Link'
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      id: clze80yjy0009q6l528vcgvz0
+                      name: ksksjkjsjs
+                      userId: clz0c0pzw0000cetc7zbaga21
+                      link: coolify.www.raizo.tech
+                      customSuffix: dejjjc
+                      clicks: 0
+                      createdAt: '2024-08-03T14:20:35.951Z'
+                      updatedAt: '2024-08-03T14:20:35.951Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: invalid fields
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Invalid fields
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: custom suffix in use
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  error:
+                    type: string
+                    default: custom suffix in use
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: custom suffix in use
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: dwwcfx2ewpc08
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: An unexpected error occurred
+      operationId: post-link
+      x-stoplight:
+        id: xxvdui3aqb4n8
+      description: "Only link field is required. \r\nAuthenticated and non authenticated user can create link\r\nCustom Suffix can only be supplied by authenticated user."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  link: www.google.com
+                  customSuffix: google
+              required:
+                - link
+              properties:
+                '':
+                  type: string
+                  x-stoplight:
+                    id: hduocvshpvp30
+                  description: A short name to remember the link
+                link:
+                  type: string
+                  description: The link to be shortened
+                customSuffix:
+                  type: string
+                  description: Suffix to redirect to link
+            examples:
+              Example 1:
+                value:
+                  name: event
+                  link: www.google.com
+                  customSuffix: google
+      security:
+        - {}
+  '/link/{linkId}':
+    patch:
+      summary: Patch Specific Link
+      tags:
+        - Link
+        - Protected
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    message: custom suffix changed successfully
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    default: custom suffix changed successfully
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    message: custom suffix changed successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    error: Invalid fields
+                properties:
+                  error:
+                    type: string
+                    default: Invalid fields
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Invalid fields
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: 8ue86q95zambd
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Internal server error
+      operationId: patch-link
+      x-stoplight:
+        id: dds6yyczobl43
+      description: "Change the custom suffix  of a specific link.\r\nMethod can only be used by an authorized user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customSuffix:
+                  type: string
+              x-examples:
+                Example 1:
+                  customSuffix: newSuffix
+            examples:
+              Example 1:
+                value:
+                  customSuffix: newSuffix
+      security:
+        - apiKey_1: []
+    parameters:
+      - schema:
+          type: string
+        in: path
+        name: linkId
+        description: The id of a sepecific link
+        required: true
+    get:
+      summary: Get Specific Link
+      tags:
+        - Link
+        - Protected
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    data:
+                      link:
+                        id: clzqc4nfc00017cr3nyv1r86y
+                        name: trans
+                        customSuffix: ccool
+                        createdAt: '2024-08-12T01:48:40.728Z'
+                        updatedAt: '2024-08-15T04:55:22.926Z'
+                        clicks: 1
+                      totalVisits: 1
+                      uniqueCountriesCount: 1
+                      top5Countries:
+                        - country: Nigeria
+                          clickCount: 1
+                      countryStats:
+                        - country: Nigeria
+                          count: 1
+                          percentage: '100.00'
+                required:
+                  - success
+                  - data
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    required:
+                      - link
+                      - totalVisits
+                      - uniqueCountriesCount
+                      - top5Countries
+                      - countryStats
+                    properties:
+                      link:
+                        $ref: '#/components/schemas/Link'
+                        x-stoplight:
+                          id: zd1n2k8khgyg4
+                      totalVisits:
+                        type: integer
+                      uniqueCountriesCount:
+                        type: integer
+                      top5Countries:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            country:
+                              type: string
+                            clickCount:
+                              type: integer
+                      countryStats:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - country
+                            - count
+                            - percentage
+                          properties:
+                            country:
+                              type: string
+                            count:
+                              type: integer
+                            percentage:
+                              type: string
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      link:
+                        id: clze80yjy0009q6l528vcgvz0
+                        name: ksksjkjsjs
+                        userId: clz0c0pzw0000cetc7zbaga21
+                        link: coolify.www.raizo.tech
+                        customSuffix: dejjjc
+                        clicks: 0
+                        createdAt: '2024-08-03T14:20:35.951Z'
+                        updatedAt: '2024-08-03T14:20:35.951Z'
+                      totalVisits: 0
+                      uniqueCountriesCount: 0
+                      top5Countries:
+                        - country: string
+                          clickCount: 0
+                      countryStats:
+                        - country: string
+                          count: 0
+                          percentage: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Link not found
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    message: Link not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: dmb2vsgdcff7l
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: An unexpected error occurred
+      operationId: get-link-linkId
+      x-stoplight:
+        id: 5y2duljwnwf4l
+      description: Get specific link by linkid
+      security:
+        - apiKey_1: []
+  /link/click:
+    patch:
+      summary: Patch Specific Link
+      tags:
+        - Link
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Invalid fields
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: 6gkxd06jt6nkg
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Error updating link click
+      operationId: patch-link-click
+      x-stoplight:
+        id: 0a8qy4w2mw9l2
+      description: 'increase click count on link visit '
+      requestBody:
+        description: Increase click count for specific link
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customSuffix:
+                  type: string
+                country:
+                  type: string
+              x-examples:
+                Example 1:
+                  customSuffix: string
+                  country: string
+            examples:
+              Example 1:
+                value:
+                  customSuffix: suffix
+                  country: Nigeria
+      security: []
+  '/link/public/{customSuffix}':
+    parameters:
+      - schema:
+          type: string
+        name: customSuffix
+        in: path
+        required: true
+        description: 'The custom suffix of a link '
+    get:
+      summary: Get Link
+      tags:
+        - Link
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - data
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: string
+                    x-stoplight:
+                      id: 919n4uco0u0v1
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data: 'https://www.google.com'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Link not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: 9x210e95to9kq
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+      operationId: get-link-public-customSuffix
+      x-stoplight:
+        id: vhzho2hteh151
+      description: Get the Link a user shortened
+      security: []
+  /link/top-countries:
+    get:
+      summary: Get User Top Countries
+      tags:
+        - Link
+        - Protected
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    data:
+                      - country: France
+                        clicks: 21
+                      - country: Nigeria
+                        clicks: 10
+                      - country: Romania
+                        clicks: 8
+                      - country: The Netherlands
+                        clicks: 4
+                      - country: United States
+                        clicks: 1
+                      - country: Unknown
+                        clicks: 1
+                required:
+                  - success
+                  - data
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - country
+                        - clicks
+                      properties:
+                        country:
+                          type: string
+                        clicks:
+                          type: integer
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      - country: France
+                        clicks: 21
+                      - country: Nigeria
+                        clicks: 10
+                      - country: Romania
+                        clicks: 8
+                      - country: The Netherlands
+                        clicks: 4
+                      - country: United States
+                        clicks: 1
+                      - country: Unknown
+                        clicks: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    message: Rate limit exceeded
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    x-stoplight:
+                      id: cx0c5thw0xwfr
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: An unexpected error occurred
+      operationId: get-link-top-countries
+      x-stoplight:
+        id: z353pw7pjbd3k
+      description: Get top countries accross all links created by user
+      security:
+        - apiKey_1: []
+  /user/stats:
+    get:
+      summary: Get User Stats
+      tags:
+        - User
+        - Protected
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    data:
+                      userId: clz0c0pzw0000cetc7zbaga21
+                      email: 1@2.com
+                      name: trans
+                      totalLinksCreated: 50
+                      uniqueLinksCount: 11
+                      lastFiveLinks:
+                        - link: coolify.www.raizo.tech
+                          customSuffix: ccool
+                        - link: coolify.www.raizo.tech
+                          customSuffix: coolx
+                        - link: coolify.www.raizo.tech
+                          customSuffix: uEpoz
+                        - link: coolify.www.raizo.tech
+                          customSuffix: coolify
+                        - link: coolify.www.raizo.tech
+                          customSuffix: 'jg,rp3'
+                      topCountries:
+                        - country: France
+                          clickCount: 21
+                        - country: Nigeria
+                          clickCount: 10
+                        - country: Romania
+                          clickCount: 4
+                        - country: Romania
+                          clickCount: 4
+                        - country: The Netherlands
+                          clickCount: 4
+                required:
+                  - success
+                  - data
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    required:
+                      - userId
+                      - email
+                      - name
+                      - totalLinksCreated
+                      - uniqueLinksCount
+                      - lastFiveLinks
+                      - topCountries
+                    properties:
+                      userId:
+                        type: string
+                      email:
+                        type: string
+                      name:
+                        type: string
+                      totalLinksCreated:
+                        type: integer
+                      uniqueLinksCount:
+                        type: integer
+                      lastFiveLinks:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - customSuffix
+                          properties:
+                            link:
+                              type: string
+                            customSuffix:
+                              type: string
+                      topCountries:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - country
+                            - clickCount
+                          properties:
+                            country:
+                              type: string
+                            clickCount:
+                              type: integer
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      userId: clz0c0pzw0000cetc7zbaga21
+                      email: 1@2.com
+                      name: trans
+                      totalLinksCreated: 50
+                      uniqueLinksCount: 11
+                      lastFiveLinks:
+                        - link: coolify.www.raizo.tech
+                          customSuffix: ccool
+                        - link: coolify.www.raizo.tech
+                          customSuffix: coolx
+                        - link: coolify.www.raizo.tech
+                          customSuffix: uEpoz
+                        - link: coolify.www.raizo.tech
+                          customSuffix: coolify
+                        - link: coolify.www.raizo.tech
+                          customSuffix: 'jg,rp3'
+                      topCountries:
+                        - country: France
+                          clickCount: 21
+                        - country: Nigeria
+                          clickCount: 10
+                        - country: Romania
+                          clickCount: 4
+                        - country: Romania
+                          clickCount: 4
+                        - country: The Netherlands
+                          clickCount: 4
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Rate limit exceeded
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: false
+                    error: Unauthorized
+                required:
+                  - success
+                  - error
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    error: Internal server error
+      operationId: get-user-stats
+      x-stoplight:
+        id: uzcdfj0ewpvkk
+      description: 'Get basic info about user which includes user infomation, last 5 links created , total number of link created etc'
+      security:
+        - apiKey_1: []
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: 'null'
+        role:
+          type: string
+        totalClicks:
+          type: integer
+        uniqueCountryCount:
+          type: integer
+      x-examples:
+        Example 1:
+          id: clz0c0pzw0000cetc7zbaga21
+          name: trans
+          email: 1@2.com
+          emailVerified: null
+          role: USER
+          totalClicks: 45
+          uniqueCountryCount: 7
+      description: Link Model Object
+    Link:
+      type: object
+      x-examples:
+        Example 1:
+          id: clz5beuou0003sgob6qgjjvp9
+          userId: clz0c0pzw0000cetc7zbaga21
+          link: www.google.com
+          customSuffix: umpwv
+          clicks: 0
+          createdAt: '2024-07-28T08:45:27.390Z'
+          updatedAt: '2024-07-28T08:45:27.390Z'
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        link:
+          type: string
+        customSuffix:
+          type: string
+        clicks:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      examples:
+        - id: clze80yjy0009q6l528vcgvz0
+          name: ksksjkjsjs
+          userId: clz0c0pzw0000cetc7zbaga21
+          link: coolify.www.raizo.tech
+          customSuffix: dejjjc
+          clicks: 0
+          createdAt: '2024-08-03T14:20:35.951Z'
+          updatedAt: '2024-08-03T14:20:35.951Z'
+  securitySchemes:
+    apiKey_1:
+      type: http
+      scheme: bearer
+      description: Access token for authenticated user
+  responses: {}
+security:
+  - {}
+  - apiKey_1: []
