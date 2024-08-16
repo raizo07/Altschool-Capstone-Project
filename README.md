@@ -1,5 +1,6 @@
 # AltSchool of Backend Engineering (NodeJs) Tinyuka 2023 Capstone Project
 **Name:** UrlShortener-(Scissors Capstone) <br>
+Live Api Docs: https://github.com/raizo07/Altschool-Capstone-Project/blob/main/scissors.yaml
 
 ## Tools Used
 - [Nextjs](https://nextjs.org/)
